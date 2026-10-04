@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>LIFEOS — Your day. Your rules.</title>
+<style>
+:root{--bg:#0B1220;--card:#121C2E;--acc:#14B8A6;--gold:#F5C451;--txt:#F8FAFC;--mut:#94A3B8;--brd:#1E2D47;--teal:#14B8A6;--gold2:#F5C451;--em:#10B981;--or:#F97316;--bl:#60A5FA;--pu:#A78BFA;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,-apple-system,Roboto,Inter,sans-serif;min-height:100vh;padding-bottom:96px}
+a{color:var(--acc)}
+.top{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--brd);padding:14px 18px;display:flex;align-items:center;gap:12px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#14B8A6,#0d9488);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#062a26}
+.top h1{font-size:20px;letter-spacing:3px}.top small{display:block;font-size:11px;color:var(--mut);letter-spacing:.5px;font-weight:400}
+.wrap{max-width:920px;margin:0 auto;padding:18px 16px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.card h2{font-size:13px;letter-spacing:2px;color:var(--mut);margin-bottom:10px;font-weight:600}
+.big{font-size:24px;font-weight:700}.sub{color:var(--mut);font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.grow{flex:1;min-width:140px}
+.btn{background:var(--acc);color:#042825;border:none;border-radius:12px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s}
+.btn:active{transform:scale(.97)}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--brd)}
+.btn.gold{background:var(--gold);color:#3a2a00}.btn.warn{background:#7f1d1d;color:#fecaca}.btn.sm{padding:8px 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+input,select,textarea{background:#0B1220;border:1px solid var(--brd);color:var(--txt);border-radius:10px;padding:11px 12px;font-size:15px;width:100%;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:0}
+label{font-size:13px;color:var(--mut);display:block;margin:10px 0 5px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid var(--brd);color:var(--mut)}
+.badge.live{color:#4ade80;border-color:#14532d}.badge.live .dot{background:#4ade80;animation:pl 1.2s infinite}
+.badge.rest{color:var(--gold);border-color:#57500f}.dot{width:8px;height:8px;border-radius:50%;background:var(--mut)}
+@keyframes pl{50%{opacity:.3}}
+.item{background:#0B1220;border:1px solid var(--brd);border-radius:12px;padding:12px 14px;margin:8px 0;display:flex;gap:10px;align-items:center}
+.item .t{flex:1}.item .tt{font-weight:600;font-size:15px}.item .mm{font-size:13px;color:var(--mut)}
+.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.5px}
+.p-High{background:#7f1d1d;color:#fecaca}.p-Medium{background:#573f08;color:#fde68a}.p-Low{background:#134e4a;color:#99f6e4}
+.st-done{opacity:.6}.st-done .tt{text-decoration:line-through}
+.voicebtn{width:100%;padding:22px;border-radius:20px;border:2px solid var(--acc);background:rgba(20,184,166,.08);color:var(--txt);font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px}
+.voicebtn.listening{background:rgba(20,184,166,.22);animation:pl 1s infinite}
+.chat{max-height:330px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.msg{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.5;max-width:92%}
+.msg.ai{background:#0B1220;border:1px solid var(--brd);align-self:flex-start}
+.msg.me{background:rgba(20,184,166,.16);border:1px solid #134e4a;align-self:flex-end}
+.timer{font-size:64px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.reps{font-size:56px;font-weight:800;text-align:center}
+video#cam{width:100%;border-radius:14px;background:#000;aspect-ratio:4/3;object-fit:cover}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(11,18,32,.97);border-top:1px solid var(--brd);display:flex;overflow-x:auto;z-index:50;padding:6px 4px calc(8px + env(safe-area-inset-bottom))}
+.nav button{flex:1;min-width:62px;background:none;border:none;color:var(--mut);font-size:10px;padding:8px 4px;cursor:pointer;border-radius:10px;font-family:inherit}
+.nav button.on{color:var(--acc)}.nav button .ic{font-size:20px;display:block;margin-bottom:2px}
+.view{display:none}.view.on{display:block;animation:fd .2s}
+@keyframes fd{from{opacity:0;transform:translateY(6px)}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}.timer{font-size:52px}}
+.bar{height:8px;background:#0B1220;border-radius:99px;overflow:hidden;margin-top:8px;border:1px solid var(--brd)}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .4s}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--brd);font-size:14px}
+.kv:last-child{border:none}.kv b{font-variant-numeric:tabular-nums}
+.sugg{border-left:3px solid var(--acc);padding:10px 14px;background:rgba(20,184,166,.06);border-radius:0 12px 12px 0;font-size:14px;margin:8px 0}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#1e293b;border:1px solid var(--acc);padding:12px 20px;border-radius:12px;z-index:99;font-size:14px;display:none;max-width:90%}
+.tgl{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--brd);font-size:14px}
+.tgl input{width:44px;accent-color:var(--acc)}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#1e293b;color:var(--mut)}
+.progress-ring{font-size:13px;color:var(--mut)}
+h3.sec{font-size:16px;margin:4px 0 10px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">L</div><h1>LIFEOS<small>Your day. Your rules.</small></h1>
+<span style="flex:1"></span><span class="badge" id="clock">--:--</span></div>
+<div class="toast" id="toast" role="alert"></div>
+<div class="wrap" id="app"></div>
+<nav class="nav" id="nav" aria-label="Main navigation"></nav>
+
+<script>
+/* ============ LIFEOS — single-file functional OS ============ */
+const $=s=>document.querySelector(s);
+const LS='lifeos_v1';
+const DEF={user:{name:'',tz:Intl.DateTimeFormat().resolvedOptions().timeZone,prayerCity:'Mecca',prayerMethod:4,studyLen:45,workoutTime:'18:00',coachStyle:'balanced'},
+ tasks:[],acts:[],study:[],workouts:[],goals:[],quran:[],rems:[],mem:[],prayDone:{},log:[],prefs:{notif:true,quietStart:'22:00',quietEnd:'06:00',remStudy:true,remPrayer:true,remWorkout:true}};
+let S; try{S=JSON.parse(localStorage.getItem(LS))||structuredClone(DEF)}catch{S=structuredClone(DEF)}
+S={...structuredClone(DEF),...S};
+const save=()=>localStorage.setItem(LS,JSON.stringify(S));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const fmtT=ms=>{ms=Math.max(0,ms);const s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+const hm=d=>{d=new Date(d);return d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})};
+const todayStr=()=>new Date().toISOString().slice(0,10);
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._x);t._x=setTimeout(()=>t.style.display='none',2600)}
+function log(type,payload){S.log.push({id:uid(),type,timestamp:Date.now(),payload});if(S.log.length>300)S.log=S.log.slice(-300);save()}
+
+/* ---- runtime (timers/workout/focus) — single source of truth ---- */
+const RT={focus:null,workout:null,restUntil:0,chat:[{from:'ai',text:'Salaam, Sir. I am LIFEOS. Ask me anything — "What should I do?", "Start Physics", "Start workout", "Remind me at 8".'}]};
+setInterval(()=>{const c=$('#clock');if(c)c.textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});tick()},500);
+
+/* ---- prayer times: real API (Aladhan) with honest fallback ---- */
+let PRAY=null;
+async function loadPrayer(){
+ try{const m=S.user.prayerMethod||4;
+  const r=await fetch(`https://api.aladhan.com/v1/timingsByCity/${new Date().toISOString().slice(0,10)}?city=${encodeURIComponent(S.user.prayerCity)}&country=Saudi%20Arabia&method=${m}`);
+  const j=await r.json();const t=j.data.timings;
+  PRAY=['Fajr','Dhuhr','Asr','Maghrib','Isha'].map(n=>({name:n,time:t[n].slice(0,5)}));
+ }catch{PRAY=null}
+ render();
+}
+function nextPrayer(){
+ if(!PRAY)return null;const now=new Date();const hmnow=now.getHours()*60+now.getMinutes();
+ for(const p of PRAY){const[h,m]=p.time.split(':').map(Number);if(h*60+m>hmnow)return{...p,mins:h*60+m-hmnow}}
+ return{...PRAY[0],mins:(24*60-hmnow)+( +PRAY[0].time.slice(0,2)*60 + +PRAY[0].time.slice(3)),tomorrow:true};
+}
+
+/* ---- derived state ---- */
+function activeFocus(){return RT.focus&&RT.focus.status==='active'?RT.focus:null}
+function nowAct(){
+ if(RT.workout&&['ACTIVE','RESTING','PAUSED'].includes(RT.workout.state))return{icon:'🏋️',title:'Workout — '+RT.workout.exercise,live:'LIVE WORKOUT',color:'var(--or)'};
+ if(activeFocus())return{icon:'📚',title:RT.focus.subject+(RT.focus.topic?' · '+RT.focus.topic:''),live:'FOCUS MODE',color:'var(--teal)'};
+ const now=new Date();const t=S.acts.filter(a=>a.status!=='done'&&a.status!=='cancelled'&&new Date(a.start)<=now&&new Date(a.end)>=now).sort((a,b)=>new Date(a.start)-new Date(b.start))[0];
+ if(t)return{icon:ic(t.type),title:t.title,sub:hm(t.start)+' — '+hm(t.end),color:c(t.type)};
+ const up=S.acts.filter(a=>a.status!=='done'&&a.status!=='cancelled'&&new Date(a.start)>=now).sort((a,b)=>new Date(a.start)-new Date(b.start))[0];
+ if(up)return{icon:ic(up.type),title:up.title,sub:hm(up.start),idle:true,color:c(up.type)};
+ return null;
+}
+function nextEv(){
+ const now=new Date();
+ const acts=S.acts.filter(a=>['pending','active'].includes(a.status)&&new Date(a.end)>=now).sort((a,b)=>new Date(a.start)-new Date(b.start));
+ const np=nextPrayer();let best=acts[0]?{icon:ic(acts[0].type),title:acts[0].title,when:acts[0].start,mins:Math.round((new Date(acts[0].start)-now)/60000)}:null;
+ if(np&&(!best||np.mins<best.mins))best={icon:'🕌',title:np.name+(np.tomorrow?' (tomorrow)':''),when:np.time,mins:np.mins,prayer:true};
+ const up=S.rems.filter(r=>r.enabled&&new Date(r.time)>=now).sort((a,b)=>new Date(a.time)-new Date(b.time))[0];
+ if(up){const m=Math.round((new Date(up.time)-now)/60000);if(!best||m<best.mins)best={icon:'⏰',title:up.title,when:up.time,mins:m}}
+ return best;
+}
+const ic=t=>({study:'📚',workout:'🏋️',prayer:'🕌',quran:'📖',goal:'🎯',task:'✅',reminder:'⏰'}[t]||'📌');
+const c=t=>({study:'var(--teal)',prayer:'var(--gold2)',quran:'var(--em)',workout:'var(--or)',goal:'var(--pu)'}[t]||'var(--bl)');
+function todayStats(){
+ const t0=new Date();t0.setHours(0,0,0,0);
+ const st=S.study.filter(s=>s.startTime>=t0.getTime()&&s.status==='done').reduce((a,s)=>a+s.duration,0);
+ const w=S.workouts.filter(w=>w.date===todayStr());
+ const reps=w.reduce((a,x)=>a+x.sets.reduce((b,s)=>b+s.actualReps,0),0);
+ const tk=S.tasks.filter(t=>t.status==='done'&&new Date(t.updatedAt)>=t0).length;
+ const q=S.quran.find(q=>q.date===todayStr());
+ return{study:st,reps,wsets:w.reduce((a,x)=>a+x.sets.length,0),tasks:tk,quran:q?1:0};
+}
+function suggestion(){
+ const n=nextEv(),st=todayStats();
+ if(activeFocus())return'Focus active — I will guard your time until the session ends.';
+ if(RT.workout&&RT.workout.state==='ACTIVE')return'Workout live. Say "pause", "rest 30 seconds", or "switch to squats".';
+ if(n&&n.mins<=15&&n.mins>=0)return`"${n.title}" starts in ${n.mins} min. Wrap up and prepare.`;
+ if(n&&n.mins>15&&n.mins<60)return`You have ${n.mins} minutes free before ${n.title}. A short review would fit here.`;
+ const pend=S.tasks.filter(t=>t.status!=='done').length;
+ if(pend)return`You have ${pend} open task${pend>1?'s':''}. Say "what should I do?" and I will pick the priority.`;
+ return'Your day is clear. Say "add goal" or "schedule study" to plan ahead, Sir.';
+}
+
+/* ================= AI BRAIN ================= */
+function aiReply(text){
+ RT.chat.push({from:'me',text});let out='';
+ const t=text.toLowerCase().trim();
+ const num={one:1,two:2,three:3,four:4,five:5,ten:10,fifteen:15,twenty:20,thirty:30}[t.match(/one|two|three|four|five|ten|fifteen|twenty|thirty/)?.[0]]||parseInt(t.match(/\d+/)?.[0]);
+ const mins=t.match(/(\d+)\s*(min|sec)/);
+ try{
+ if(/^(hi|hello|salaam|hey)\b/.test(t)){out='Salaam, Sir. Your command center is ready. Say "brief me" for your day.'}
+ else if(/brief|my day|summary/.test(t)){out=brief()}
+ else if(/what.*(now|doing)|current/.test(t)){const n=nowAct();out=n?`Now: ${n.title}${n.sub?' — '+n.sub:''}.`:'Nothing is active right now, Sir.'}
+ else if(/what.*next/.test(t)){const n=nextEv();out=n?`Next: ${n.title} ${typeof n.when==='string'? 'at '+n.when:'at '+hm(n.when)} (in ${n.mins} min).`:'Nothing scheduled next.'}
+ else if(/what should i do|recommend|suggest/.test(t)){out=suggestion()}
+ else if(/complete.*today|done today|finished today|what.*completed/.test(t)){const s=todayStats();out=`Today: ${Math.round(s.study/60000)} min study, ${s.reps} workout reps, ${s.tasks} tasks done, Quran ${s.quran?'done':'pending'}.`}
+ else if(/how much.*stud/.test(t)){const s=todayStats();out=`You have studied ${Math.round(s.study/60000)} minutes today, Sir.`}
+ else if(/start.*(workout|exercise|train)/.test(t)){startWorkout();out='Workout started. Push-ups first — camera is ready when you enable it. Say "pause" or "switch to squats" anytime.'}
+ else if(/^(pause|hold)\b/.test(t)){if(RT.workout&&RT.workout.state==='ACTIVE'){RT.workout.state='PAUSED';out='Workout paused.'}else if(activeFocus()){pauseFocus();out='Study paused.'}else out='Nothing active to pause.'}
+ else if(/^resume|continue/.test(t)){if(RT.workout&&RT.workout.state==='PAUSED'){RT.workout.state='ACTIVE';out='Continuing.'}else if(RT.focus&&RT.focus.status==='paused'){resumeFocus();out='Study resumed.'}else out='Nothing paused.'}
+ else if(/stop.*workout|end.*workout|finish.*workout/.test(t)){if(RT.workout){stopWorkout(true);out='Workout stopped and saved.'}else out='No workout is running.'}
+ else if(/switch to (\w+)/.test(t)){const e=t.match(/switch to (\w+)/)[1];if(RT.workout){RT.workout.exercise=cap(e);RT.workout.sets.push({n:RT.workout.sets.length+1,reps:0});RT.workout.state='ACTIVE';log('workout',{ev:'switch',to:e});out=`Switching to ${e}.`}else out='Start a workout first.'}
+ else if(/rest (\d+)/.test(t)){const s=+t.match(/rest (\d+)/)[1]*(/hour/.test(t)?3600:/min/.test(t)?60:1);if(RT.workout){startRest(s);out=`Rest timer started: ${fmtT(s*1000)}.`}else out='Start a workout first.'}
+ else if(/how many|reps|count/.test(t)){if(RT.workout){const r=RT.workout.sets.reduce((a,s)=>a+s.reps,0);out=`You have completed ${r} reps of ${RT.workout.exercise}.`}else out='No workout running.'}
+ else if(/start (.+)/.test(t)){const sub=cap(t.match(/start (.+)/)[1].replace(/session|study|focus/g,'').trim());startFocus(sub||'General',45);out=`Study session started: ${sub||'General'}, 45 minutes. Say "pause" or "complete" anytime.`}
+ else if(/start a (\d+).*minute/.test(t)){const m=+t.match(/start a (\d+)/)[1];startFocus('General',m);out=`${m}-minute focus session started.`}
+ else if(/add (\d+).*min/.test(t)){if(activeFocus()){RT.focus.total+=+t.match(/add (\d+)/)[1]*60000;out='Time added.'}else out='No active session.'}
+ else if(/time left|remaining/.test(t)){if(activeFocus()){out=`${fmtT(RT.focus.total-(Date.now()-RT.focus.startedAt-RT.focus.pausedMs))} left.`}else out='No session running.'}
+ else if(/(finish|complete|done with|i finished) (.+)/.test(t)){const k=t.match(/(finish|complete|done with|i finished) (.+)/)[2];if(completeByName(k)){out=`Marked "${k}" complete. Well done, Sir.`}else if(activeFocus()){completeFocus();out='Session complete. Nice work.'}else out=`I could not find "${k}".`}
+ else if(/mark.*complete|complete that|finish that/.test(t)){if(activeFocus()){completeFocus();out='Session complete.'}else{const o=S.tasks.find(x=>x.status!=='done');if(o){o.status='done';o.updatedAt=Date.now();save();out=`Marked "${o.title}" complete.`}else out='Nothing open to complete.'}}
+ else if(/remind me at (\d{1,2})(?::(\d{2}))?\s*(am|pm)?/.test(t)){const m=t.match(/remind me at (\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);let h=+m[1];if(m[3]==='pm'&&h<12)h+=12;const d=new Date();d.setHours(h,+(m[2]||0),0,0);const r={id:uid(),title:text,time:d.getTime(),enabled:true};S.rems.push(r);save();log('reminder',{ev:'create',id:r.id});out=`Reminder set for ${hm(d)}. I will notify you.`}
+ else if(/remind me in (\d+)\s*(min|hour)/.test(t)){const m=t.match(/remind me in (\d+)\s*(min|hour)/);const d=new Date(Date.now()+(+m[1])*(m[2]==='hour'?3600000:60000));S.rems.push({id:uid(),title:text,time:d.getTime(),enabled:true});save();out=`Reminder set for ${hm(d)}.`}
+ else if(/add task (.+)/.test(t)){const ti=cap(t.match(/add task (.+)/)[1]);S.tasks.push({id:uid(),title:ti,priority:'Medium',status:'todo',fixed:false,createdAt:Date.now(),updatedAt:Date.now()});save();out=`Task "${ti}" added.`}
+ else if(/move.*workout to (\d{1,2})(?::(\d{2}))?\s*(am|pm|)/.test(t)){const m=t.match(/move.*workout to (\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);let h=+m[1];if(m[3]==='pm'&&h<12)h+=12;if(m[3]==='am'&&h===12)h=0;if(!m[3]&&h<12)h+=12;const d=new Date();d.setHours(h,+(m[2]||0),0,0);upsertAct('workout','Workout',d,30);out=`Workout moved to ${hm(d)}.`}
+ else if(/move (.+) to tomorrow/.test(t)){const k=t.match(/move (.+) to tomorrow/)[1];const a=S.acts.find(x=>x.title.toLowerCase().includes(k)&&x.status!=='done');if(a){const s=new Date(a.start);s.setDate(s.getDate()+1);const e=new Date(a.end);e.setDate(e.getDate()+1);a.start=s.getTime();a.end=e.getTime();save();out=`Moved "${a.title}" to tomorrow.`}else out='I could not find that event.'}
+ else if(/cancel|delete that/.test(t)){const o=S.tasks.find(x=>x.status!=='done');if(o){o.status='cancelled';save();out=`Cancelled "${o.title}".`}else out='Nothing to cancel.'}
+ else if(/remember (.+)/.test(t)){S.mem.push({id:uid(),category:'note',key:'note',value:t.match(/remember (.+)/)[1],createdAt:Date.now(),updatedAt:Date.now()});save();out='Remembered, Sir.'}
+ else if(/what do you remember|my routine|my preferences/.test(t)){out=S.mem.length?('I remember: '+S.mem.slice(-5).map(m=>m.value).join('; ')+'.'):'I have no stored memories yet. Say "remember ..." to teach me.'}
+ else if(/forget|delete.*(memory|preference|history)/.test(t)){S.mem=[];save();out='Cleared stored preferences.'}
+ else if(/prayer|maghrib|fajr|salah|namaz/.test(t)){const n=nextPrayer();out=n?`Next prayer: ${n.name} at ${n.time} (in ${n.mins} min).`:'Loading prayer times…'}
+ else if(/quran/.test(t)){const q=S.quran.find(q=>q.date===todayStr());out=q?`Quran today: ${q.progress}.`:'Quran is pending today. Say "log quran" from the Quran tab after reading.'}
+ else if(/goal/.test(t)){out=S.goals.length?`You have ${S.goals.length} goals. Top: ${S.goals[0].title} at ${goalPct(S.goals[0])}%.`:'No goals yet. Open Goals to add one.'}
+ else if(/thank|shukran|jazak/.test(t)){out='Always at your service, Sir.'}
+ else if(/dizzy|hurt|pain|don't feel well|dont feel/.test(t)){if(RT.workout)RT.workout.state='PAUSED';out='Stop the exercise and rest. Sit down, breathe, drink water. Do not continue if you feel unwell.'}
+ else{out='I understood "'+text+'". I can: start/pause study, manage tasks, set reminders, move workouts, or brief you. Try "what should I do?"'}
+ }catch(e){out='I could not do that right now. Try again.'}
+ RT.chat.push({from:'ai',text:out});speak(out);render();save();
+}
+const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+function brief(){const n=nextEv(),st=todayStats(),pend=S.tasks.filter(t=>t.status!=='done').length;return`Today: ${pend} open tasks, ${Math.round(st.study/60000)} min studied.${n?` Next: ${n.title} in ${n.mins} min.`:' No upcoming events.'} ${suggestion()}`}
+function completeByName(k){k=k.toLowerCase();let f=S.tasks.find(x=>x.status!=='done'&&x.title.toLowerCase().includes(k));if(f){f.status='done';f.updatedAt=Date.now();save();return true}let a=S.acts.find(x=>x.status!=='done'&&x.title.toLowerCase().includes(k));if(a){a.status='done';save();return true}return false}
+function upsertAct(type,title,date,durMin){const s=date.getTime(),e=s+durMin*60000;let a=S.acts.find(x=>x.type===type&&new Date(x.start).toDateString()===date.toDateString()&&x.status!=='done');if(a){a.start=s;a.end=e;a.title=title}else{a={id:uid(),type,title,start:s,end:e,status:'pending',priority:'Medium',fixed:type==='prayer',metadata:{}};S.acts.push(a)}save();log('schedule',{ev:'upsert',id:a.id});checkConflicts(a);return a}
+function checkConflicts(a){const c=S.acts.filter(x=>x.id!==a.id&&x.status!=='done'&&x.status!=='cancelled'&&x.start<a.end&&x.end>a.start&&x.fixed);if(c.length)toast(`⚠ "${a.title}" overlaps fixed event "${c[0].title}". Consider moving it.`)}
+
+/* ---- focus ---- */
+function startFocus(subject,durMin){RT.focus={id:uid(),subject,topic:'',startedAt:Date.now(),pausedMs:0,total:durMin*60000,status:'active'};log('study',{ev:'start',subject});tick()}
+function pauseFocus(){if(RT.focus&&RT.focus.status==='active'){RT.focus.status='paused';RT.focus.pausedAt=Date.now()}}
+function resumeFocus(){if(RT.focus&&RT.focus.status==='paused'){RT.focus.pausedMs+=Date.now()-RT.focus.pausedAt;RT.focus.status='active'}}
+function completeFocus(done=true){if(!RT.focus)return;S.study.push({id:RT.focus.id,subject:RT.focus.subject,topic:RT.focus.topic,startTime:RT.focus.startedAt,endTime:Date.now(),duration:Date.now()-RT.focus.startedAt-RT.focus.pausedMs,status:done?'done':'stopped'});const a=S.acts.find(x=>x.title.toLowerCase()===RT.focus.subject.toLowerCase()&&x.status!=='done');if(a&&done)a.status='done';RT.focus=null;save();log('study',{ev:'complete'})}
+
+/* ---- workout state machine ---- */
+const EXS=['Push-ups','Squats','Pull-ups'];
+function startWorkout(plan){RT.workout={state:'PREPARING',exercise:'Push-ups',sets:[{n:1,reps:0}],startedAt:Date.now(),target:20,history:[]};setTimeout(()=>{if(RT.workout&&RT.workout.state==='PREPARING'){RT.workout.state='ACTIVE';render()}},1500);log('workout',{ev:'start'});tick();render()}
+function stopWorkout(done){const w=RT.workout;if(!w)return;w.state=done?'WORKOUT_COMPLETE':'STOPPED';S.workouts.push({id:uid(),date:todayStr(),duration:Date.now()-w.startedAt,status:done?'done':'stopped',sets:w.sets.map(s=>({exercise:w.exercise,setNumber:s.n,targetReps:w.target,actualReps:s.reps,duration:0}))});stopCam();RT.workout=null;save();log('workout',{ev:'stop'});render()}
+function startRest(sec){if(!RT.workout)return;RT.workout.state='RESTING';RT.restUntil=Date.now()+sec*1000}
+function tick(){
+ if(RT.focus&&RT.focus.status==='active'){const left=RT.focus.total-(Date.now()-RT.focus.startedAt-RT.focus.pausedMs);if(left<=0){completeFocus();toast('✅ Study session complete')}else if(Math.abs(left-600000)<800&&!RT.focus._w10){RT.focus._w10=1;toast('⏳ Ten minutes left');speak('Ten minutes left')}}
+ if(RT.workout&&RT.workout.state==='RESTING'&&Date.now()>=RT.restUntil){RT.workout.state='ACTIVE';toast('✅ Rest complete');speak('Rest complete');render()}
+ const f=$('#focusTimer');if(f&&activeFocus())f.textContent=fmtT(RT.focus.total-(Date.now()-RT.focus.startedAt-RT.focus.pausedMs));
+ const fr=$('#focusTimerR');if(fr&&RT.focus&&RT.focus.status==='paused')fr.textContent=fmtT(RT.focus.total-(RT.focus.pausedAt-RT.focus.startedAt-RT.focus.pausedMs));
+ const wr=$('#restTimer');if(wr&&RT.workout&&RT.workout.state==='RESTING')wr.textContent=fmtT(RT.restUntil-Date.now());
+ const wt=$('#wTimer');if(wt&&RT.workout)wt.textContent=fmtT(Date.now()-RT.workout.startedAt);
+ checkRems();
+}
+let lastRemCheck=0;
+function checkRems(){const n=Date.now();if(n-lastRemCheck<5000)return;lastRemCheck=n;if(!S.prefs.notif)return;const[qh,qm]=S.prefs.quietStart.split(':').map(Number),[eh,em]=S.prefs.quietEnd.split(':').map(Number);const d=new Date(),cur=d.getHours()*60+d.getMinutes();const quiet=(qh*60+qm)>(eh*60+em)?(cur>=qh*60+qm||cur<eh*60+em):(cur>=qh*60+qm&&cur<eh*60+em);if(quiet)return;for(const r of S.rems.filter(r=>r.enabled&&!r.fired&&r.time<=n)){r.fired=true;save();toast('⏰ '+r.title);speak(r.title);if(navigator.vibrate)navigator.vibrate(200)}}
+
+/* ---- voice ---- */
+function speak(t){try{if(!S.prefs.voiceOff){const u=new SpeechSynthesisUtterance(t.slice(0,180));u.rate=1.05;speechSynthesis.cancel();speechSynthesis.speak(u)}}catch{}}
+let rec=null;
+function listen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;const inp=$('#chatIn');if(!SR){toast("Voice not supported here — type instead");return}try{if(rec){rec.stop();rec=null;return}}catch{}rec=new SR();rec.lang='en-US';rec.interimResults=false;const b=$('#vbtn');b.classList.add('listening');b.innerHTML='🛑 LISTENING… (tap to stop)';rec.onresult=e=>{const txt=e.results[0][0].transcript;if(inp)inp.value=txt;aiReply(txt)};rec.onerror=()=>{toast("I didn't catch that. Try again.")};rec.onend=()=>{rec=null;const b2=$('#vbtn');if(b2){b2.classList.remove('listening');b2.innerHTML='🎙 TALK TO LIFEOS'}};rec.start()}
+
+/* ---- camera ---- */
+let stream=null;
+async function startCam(){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});const v=$('#cam');if(v)v.srcObject=stream;const b=$('#camBadge');if(b){b.className='badge live';b.innerHTML='<span class="dot"></span> CAMERA ACTIVE'}}catch{toast('Camera blocked. Manual rep mode still works.')}}
+function stopCam(){try{stream?.getTracks().forEach(t=>t.stop())}catch{}stream=null;const v=$('#cam');if(v)v.srcObject=null;const b=$('#camBadge');if(b){b.className='badge';b.textContent='CAMERA OFF'}}
+function addRep(n=1){if(!RT.workout||RT.workout.state!=='ACTIVE'){toast('Start or resume the workout first');return}const s=RT.workout.sets[RT.workout.sets.length-1];s.reps+=n;log('workout',{ev:'rep',n:s.reps});if(s.reps>0&&s.reps%15===0)speak(s.reps+'. Nice work.');render()}
+
+/* ---- goals ---- */
+const goalPct=g=>{if(!g.milestones.length)return 0;return Math.round(g.milestones.filter(m=>m.done).length/g.milestones.length*100)};
+
+/* ================= VIEWS ================= */
+let V='home';
+const NAV=[['home','🏠','Home'],['ai','🤖','AI'],['sched','📅','Plan'],['tasks','✅','Tasks'],['study','📚','Study'],['work','🏋️','Workout'],['prayer','🕌','Prayer'],['quran','📖','Quran'],['goals','🎯','Goals'],['prog','📊','Progress'],['mem','🧠','Memory'],['set','⚙️','Settings']];
+function renderNav(){$('#nav').innerHTML=NAV.map(n=>`<button class="${V===n[0]?'on':''}" onclick="go('${n[0]}')" aria-label="${n[2]}"><span class="ic">${n[1]}</span>${n[2]}</button>`).join('')}
+function go(v){V=v;if(v==='work'&&RT.workout&&RT.workout.state==='ACTIVE'){}else if(v!=='work'&&stream&&!RT.workout){stopCam()}render();$('#app').scrollIntoView()}
+function render(){renderNav();const A=$('#app');const n=nowAct(),nx=nextEv(),st=todayStats();
+if(V==='home'){A.innerHTML=`
+<div class="card"><h2>NOW</h2>${n?`<div class="big">${n.icon} ${n.title}</div><div class="sub">${n.sub||''}</div><p style="margin-top:8px"><span class="badge ${n.live?'live':''}">${n.live?'● '+n.live:'● SCHEDULED'}</span></p>`:'<div class="big">Nothing active</div><div class="sub">Say "what should I do?"</div>'}</div>
+<div class="card"><h2>NEXT</h2>${nx?`<div class="big">${nx.icon} ${nx.title}</div><div class="sub">${typeof nx.when==='string'?'at '+nx.when:hm(nx.when)} · in ${nx.mins} min</div>`:'<div class="sub">Nothing scheduled.</div>'}</div>
+<div class="card"><h2>TODAY</h2><div class="grid2">
+<div class="kv"><span>📚 Study</span><b>${Math.round(st.study/60000)} min</b></div>
+<div class="kv"><span>📖 Quran</span><b>${st.quran?'Done':'Pending'}</b></div>
+<div class="kv"><span>🏋️ Workout</span><b>${st.reps} reps</b></div>
+<div class="kv"><span>🎯 Tasks done</span><b>${st.tasks}</b></div></div></div>
+<div class="sugg">🤖 ${suggestion()}</div>
+<div class="card"><h2>QUICK ACTIONS</h2><div class="row">
+<button class="btn sm" onclick="go('tasks')">+ Task</button><button class="btn sm" onclick="go('study')">Start study</button><button class="btn sm" onclick="startWorkout();go('work')">Start workout</button><button class="btn sm ghost" onclick="go('ai')">Ask AI</button></div></div>
+<div class="card"><button class="voicebtn" id="vbtn" onclick="listen()">🎙 TALK TO LIFEOS</button>
+<div class="row" style="margin-top:10px"><input id="chatIn" placeholder='Try "what should I do?"' onkeydown="if(event.key==='Enter')aiReply(this.value)"><button class="btn" onclick="aiReply(document.querySelector('#chatIn').value)">Send</button></div></div>`}
+else if(V==='ai'){A.innerHTML=`<div class="card"><h2>AI ASSISTANT — THE BRAIN</h2>
+<div class="chat" id="chat">${RT.chat.map(m=>`<div class="msg ${m.from}">${m.text}</div>`).join('')}</div>
+<button class="voicebtn" id="vbtn" onclick="listen()">🎙 TALK TO LIFEOS</button>
+<div class="row" style="margin-top:10px"><input id="chatIn" placeholder="Type to LIFEOS…" onkeydown="if(event.key==='Enter')aiReply(this.value)"><button class="btn" onclick="aiReply(document.querySelector('#chatIn').value)">Send</button></div>
+<div class="sub" style="margin-top:8px">Understands: start / pause / resume / complete / remind / move / switch / rest / report. Actions mutate real state, Sir.</div></div>`;
+const ch=$('#chat');if(ch)ch.scrollTop=ch.scrollHeight}
+else if(V==='sched'){const items=[...S.acts].sort((a,b)=>a.start-b.start);A.innerHTML=`<div class="card"><h2>SCHEDULE</h2>
+<div class="row"><input id="aT" class="grow" placeholder="Title e.g. Physics"><input id="aS" type="time" value="17:00" style="max-width:130px"><input id="aD" type="number" value="45" style="max-width:90px" title="minutes"><select id="aY" style="max-width:130px"><option value="study">Study</option><option value="workout">Workout</option><option value="quran">Quran</option><option value="goal">Goal</option><option value="task">Task</option></select><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="aF" style="width:auto"> Fixed</label><button class="btn" onclick="addAct()">Add</button></div>
+${items.length?items.map(a=>`<div class="item ${a.status==='done'?'st-done':''}"><div class="t"><div class="tt">${ic(a.type)} ${a.title}</div><div class="mm">${hm(a.start)} — ${hm(a.end)} · ${a.status}${a.fixed?' · 🔒 fixed':''}</div></div>${a.status!=='done'?`<button class="btn sm ghost" onclick="actDone('${a.id}')">Done</button>`:''}<button class="btn sm warn" onclick="actDel('${a.id}')">✕</button></div>`).join(''):'<div class="sub">No events. Add your first one above, Sir.</div>'}</div>`}
+else if(V==='tasks'){A.innerHTML=`<div class="card"><h2>TASKS</h2><div class="row"><input id="tT" class="grow" placeholder="New task…"><select id="tP" style="max-width:120px"><option>High</option><option selected>Medium</option><option>Low</option></select><button class="btn" onclick="addTask()">Add</button></div>
+${S.tasks.map(t=>`<div class="item ${t.status==='done'?'st-done':''}"><div class="t"><div class="tt">${t.title}</div><div class="mm"><span class="pill p-${t.priority}">${t.priority}</span> · ${t.status}</div></div>${t.status!=='done'?`<button class="btn sm ghost" onclick="taskDone('${t.id}')">Done</button>`:''}<button class="btn sm warn" onclick="taskDel('${t.id}')">✕</button></div>`).join('')||'<div class="sub">No tasks yet.</div>'}</div>`}
+else if(V==='study'){const f=RT.focus;A.innerHTML=`<div class="card" style="text-align:center"><h2>STUDY / FOCUS MODE</h2>
+${f?`<div class="big">${f.subject}</div><div class="timer" id="focusTimer">${fmtT(f.total-(Date.now()-f.startedAt-f.pausedMs))}</div><p><span class="badge ${f.status==='active'?'live':''}">${f.status==='active'?'● FOCUS MODE':'⏸ PAUSED'}</span></p><div class="row" style="justify-content:center;margin-top:12px">${f.status==='active'?`<button class="btn ghost" onclick="pauseFocus();render()">Pause</button>`:`<button class="btn" onclick="resumeFocus();render()">Resume</button>`}<button class="btn" onclick="completeFocus();render()">Complete</button><button class="btn warn" onclick="completeFocus(false);render()">Exit</button></div><div class="sub">Voice: "pause", "time left", "add 10 minutes", "complete"</div>`
+:`<label>Subject</label><input id="sS" placeholder="e.g. Physics"><label>Minutes</label><input id="sD" type="number" value="${S.user.studyLen}"><br><br><button class="btn" onclick="startFocus(document.querySelector('#sS').value||'General',+document.querySelector('#sD').value||45);render()">▶ Start focus</button>`}</div>
+<div class="card"><h2>HISTORY</h2>${S.study.slice(-8).reverse().map(s=>`<div class="kv"><span>${s.subject}</span><b>${Math.round(s.duration/60000)} min · ${s.status}</b></div>`).join('')||'<div class="sub">No sessions yet.</div>'}</div>`}
+else if(V==='work'){const w=RT.workout;A.innerHTML=`<div class="card" style="text-align:center"><h2>LIVE AI WORKOUT PARTNER</h2>
+${w?`<span class="badge" id="camBadge">CAMERA OFF</span> <span class="badge ${w.state==='ACTIVE'?'live':w.state==='RESTING'?'rest':''}">● ${w.state}</span>
+<video id="cam" autoplay playsinline muted style="margin-top:10px"></video>
+<div class="big" style="margin-top:8px">${w.exercise}</div><div class="reps" id="repN">${w.sets.reduce((a,s)=>a+s.reps,0)}</div>
+<div class="sub">Set ${w.sets.length} · target ${w.target} · <span id="wTimer">00:00</span>${w.state==='RESTING'?' · rest <b id="restTimer"></b>':''}</div>
+<div class="row" style="justify-content:center;margin-top:10px"><button class="btn" onclick="addRep(1)">+1 Rep</button><button class="btn ghost" onclick="addRep(5)">+5</button><button class="btn ghost" onclick="newSet()">Next set</button></div>
+<div class="row" style="justify-content:center;margin-top:8px"><select id="exS" style="max-width:170px">${EXS.map(e=>`<option ${e===w.exercise?'selected':''}>${e}</option>`).join('')}</select><button class="btn sm" onclick="switchEx(document.querySelector('#exS').value)">Switch</button></div>
+<div class="row" style="justify-content:center;margin-top:8px"><button class="btn ghost" onclick="startCam()">📷 Camera</button><button class="btn ghost" onclick="stopCam()">Stop cam</button>${w.state==='ACTIVE'?`<button class="btn gold" onclick="pauseW()">Pause</button>`:`<button class="btn" onclick="resumeW()">Resume</button>`}<button class="btn ghost" onclick="startRest(30)">Rest 30s</button><button class="btn warn" onclick="stopWorkout(true);render()">Stop & save</button></div>
+<div class="sub" style="margin-top:8px">Honest mode: reps are counted by your taps (no fake vision). Camera preview is local only. Voice: "how many?", "rest 30 seconds", "switch to squats", "stop".</div>
+<button class="voicebtn" id="vbtn" style="margin-top:10px" onclick="listen()">🎙 COACH LISTENING</button>`
+:`<div class="sub">Camera activates only after you press Start. Pose AI boundary: live rep-vision is not yet connected — manual tap counting is the honest fallback.</div><br><button class="btn" onclick="startWorkout();render()">▶ Start workout</button>`}</div>
+<div class="card"><h2>HISTORY</h2>${S.workouts.slice(-6).reverse().map(x=>`<div class="kv"><span>${x.date} · ${x.sets.map(s=>s.exercise+' '+s.actualReps).join(', ')}</span><b>${Math.round(x.duration/60000)} min</b></div>`).join('')||'<div class="sub">No workouts logged.</div>'}</div>`;
+if(w&&stream){const v=$('#cam');if(v)v.srcObject=stream}}
+else if(V==='prayer'){const np=nextPrayer();A.innerHTML=`<div class="card"><h2 style="color:var(--gold2)">PRAYER · 🕌</h2>
+${PRAY?PRAY.map(p=>{const done=S.prayDone[todayStr()+p.name];return`<div class="item"><div class="t"><div class="tt">${p.name}</div><div class="mm">${p.time}</div></div><button class="btn sm ${done?'':'ghost'}" onclick="togglePray('${p.name}')">${done?'✓ Done':'Mark'}</button></div>`}).join(''):'<div class="sub">Loading prayer times…</div>'}
+${np?`<div class="sugg">Next: <b>${np.name}</b> at ${np.time} (in ${np.mins} min)</div>`:''}
+<label>City</label><input id="pC" value="${S.user.prayerCity}"><label>Method</label><select id="pM"><option value="4" ${S.user.prayerMethod==4?'selected':''}>Umm al-Qura (Mecca)</option><option value="2" ${S.user.prayerMethod==2?'selected':''}>ISNA</option><option value="3" ${S.user.prayerMethod==3?'selected':''}>MWL</option><option value="5" ${S.user.prayerMethod==5?'selected':''}>Egyptian</option></select><br><br><button class="btn" onclick="S.user.prayerCity=document.querySelector('#pC').value;S.user.prayerMethod=+document.querySelector('#pM').value;save();loadPrayer()">Update times</button>
+<div class="sub" style="margin-top:8px">Times: live Aladhan API. Never hardcoded.</div></div>`}
+else if(V==='quran'){const q=S.quran.find(q=>q.date===todayStr());A.innerHTML=`<div class="card"><h2 style="color:var(--em)">QURAN · 📖</h2>
+<div class="kv"><span>Today</span><b>${q?q.progress:'Pending'}</b></div>
+<div class="row" style="margin-top:10px"><input id="qP" class="grow" placeholder="e.g. Al-Baqarah 1–20"><input id="qD" type="number" value="15" style="max-width:90px"><button class="btn" onclick="logQuran()">Log session</button></div>
+<h3 class="sec" style="margin-top:14px">History</h3>${S.quran.slice(-7).reverse().map(x=>`<div class="kv"><span>${x.date}</span><b>${x.progress} · ${x.duration} min</b></div>`).join('')||'<div class="sub">No sessions yet.</div>'}</div>`}
+else if(V==='goals'){A.innerHTML=`<div class="card"><h2>GOALS · 🎯</h2><div class="row"><input id="gT" class="grow" placeholder="Goal title e.g. Build Python skills"><button class="btn" onclick="addGoal()">Add goal</button></div>
+${S.goals.map(g=>`<div class="item"><div class="t"><div class="tt">${g.title}</div><div class="mm">${goalPct(g)}% · ${g.milestones.filter(m=>m.done).length}/${g.milestones.length}</div><div class="bar"><i style="width:${goalPct(g)}%;background:var(--pu)"></i></div>${g.milestones.map((m,i)=>`<div class="kv"><span>${m.done?'✓':'○'} ${m.title}</span><button class="btn sm ghost" onclick="togMs('${g.id}',${i})">Toggle</button></div>`).join('')}<div class="row" style="margin-top:6px"><input id="ms-${g.id}" placeholder="+ milestone" style="font-size:13px"><button class="btn sm ghost" onclick="addMs('${g.id}')">Add</button><button class="btn sm warn" onclick="delGoal('${g.id}')">Delete</button></div></div></div>`).join('')||'<div class="sub">No goals. Add your first one, Sir.</div>'}</div>`}
+else if(V==='prog'){const s=todayStats();const wk=S.workouts.filter(w=>{const d=new Date(w.id?Date.now():Date.now());return true}).length;A.innerHTML=`<div class="card"><h2>PROGRESS · 📊</h2>
+<div class="kv"><span>📚 Study today</span><b>${Math.round(s.study/60000)} min</b></div>
+<div class="kv"><span>🏋️ Reps today</span><b>${s.reps}</b></div>
+<div class="kv"><span>✅ Tasks done today</span><b>${s.tasks}</b></div>
+<div class="kv"><span>📖 Quran today</span><b>${s.quran?'Done':'Pending'}</b></div>
+<div class="kv"><span>🏋️ Total workouts</span><b>${S.workouts.length}</b></div>
+<div class="kv"><span>🎯 Goals</span><b>${S.goals.length}</b></div></div>
+<div class="card"><h2>REMINDERS</h2>${S.rems.map(r=>`<div class="item"><div class="t"><div class="tt">⏰ ${r.title}</div><div class="mm">${hm(r.time)}</div></div><button class="btn sm ghost" onclick="togRem('${r.id}')">${r.enabled?'On':'Off'}</button><button class="btn sm warn" onclick="delRem('${r.id}')">✕</button></div>`).join('')||'<div class="sub">No reminders.</div>'}<div class="row" style="margin-top:8px"><input id="rT" class="grow" placeholder="Reminder text"><input id="rH" type="time" value="20:00" style="max-width:120px"><button class="btn" onclick="addRem()">Add</button></div></div>`}
+else if(V==='mem'){A.innerHTML=`<div class="card"><h2>MEMORY & PERSONALIZATION · 🧠</h2><div class="sub">Structured, user-controlled. I only claim what is stored here.</div>
+${S.mem.map(m=>`<div class="item"><div class="t"><div class="tt">${m.value}</div><div class="mm">${new Date(m.createdAt).toLocaleDateString()}</div></div><button class="btn sm warn" onclick="delMem('${m.id}')">Forget</button></div>`).join('')||'<div class="sub">No memories. Say "remember I study 45 minutes".</div>'}
+<div class="row" style="margin-top:8px"><input id="mV" class="grow" placeholder="Remember…"><button class="btn" onclick="S.mem.push({id:uid(),category:'note',key:'note',value:document.querySelector('#mV').value,createdAt:Date.now(),updatedAt:Date.now()});save();render()">Save</button><button class="btn warn" onclick="if(confirm('Clear all memory?')){S.mem=[];save();render()}">Clear all</button></div></div>`}
+else if(V==='set'){A.innerHTML=`<div class="card"><h2>SETTINGS · ⚙️</h2>
+<label>Your name</label><input id="uN" value="${S.user.name}" placeholder="Sir">
+<label>Default study length (min)</label><input id="uS" type="number" value="${S.user.studyLen}">
+<label>Preferred workout time</label><input id="uW" type="time" value="${S.user.workoutTime}">
+<div class="tgl"><span>🔔 Notifications</span><input type="checkbox" id="pN" ${S.prefs.notif?'checked':''}></div>
+<div class="tgl"><span>🔊 AI voice replies</span><input type="checkbox" id="pV" ${!S.prefs.voiceOff?'checked':''}></div>
+<div class="row" style="margin-top:12px"><button class="btn" onclick="S.user.name=document.querySelector('#uN').value;S.user.studyLen=+document.querySelector('#uS').value;S.user.workoutTime=document.querySelector('#uW').value;S.prefs.notif=document.querySelector('#pN').checked;S.prefs.voiceOff=!document.querySelector('#pV').checked;save();toast('Saved, Sir')">Save</button>
+<button class="btn warn" onclick="if(confirm('Delete ALL LIFEOS data?')){localStorage.removeItem(LS);location.reload()}">Delete my data</button></div>
+<div class="sub" style="margin-top:10px">Privacy: camera only on explicit Start · memory inspectable & deletable · keys server-side only · offline: schedule, timers, progress keep working.</div></div>`}
+}
+/* actions */
+function addTask(){const t=$('#tT').value.trim();if(!t)return toast('Type a task first');S.tasks.push({id:uid(),title:cap(t),priority:$('#tP').value,status:'todo',fixed:false,createdAt:Date.now(),updatedAt:Date.now()});save();log('task',{ev:'create'});render()}
+function taskDone(id){const t=S.tasks.find(x=>x.id===id);t.status='done';t.updatedAt=Date.now();save();render()}
+function taskDel(id){S.tasks=S.tasks.filter(x=>x.id!==id);save();render()}
+function addAct(){const t=$('#aT').value.trim();if(!t)return toast('Title first');const[sH,sM]=$('#aS').value.split(':').map(Number);const d=new Date();d.setHours(sH,sM,0,0);upsertAct($('#aY').value,cap(t),d,+$('#aD').value||30);const a=S.acts[S.acts.length-1];a.fixed=$('#aF').checked;save();render()}
+function actDone(id){S.acts.find(x=>x.id===id).status='done';save();render()}
+function actDel(id){S.acts=S.acts.filter(x=>x.id!==id);save();render()}
+function pauseW(){if(RT.workout)RT.workout.state='PAUSED';render()}
+function resumeW(){if(RT.workout)RT.workout.state='ACTIVE';render()}
+function newSet(){if(!RT.workout)return;RT.workout.sets.push({n:RT.workout.sets.length+1,reps:0});speak('Starting set '+(RT.workout.sets.length));render()}
+function switchEx(e){if(!RT.workout)return;RT.workout.exercise=e;RT.workout.sets.push({n:RT.workout.sets.length+1,reps:0});RT.workout.state='ACTIVE';speak('Switching to '+e);render()}
+function togglePray(n){const k=todayStr()+n;S.prayDone[k]=!S.prayDone[k];save();render()}
+function logQuran(){const p=$('#qP').value||'Reading';S.quran.push({id:uid(),date:todayStr(),duration:+$('#qD').value||15,progress:p,notes:''});save();log('quran',{ev:'log'});toast('Quran logged, Sir');render()}
+function addGoal(){const t=$('#gT').value.trim();if(!t)return;S.goals.push({id:uid(),title:cap(t),description:'',deadline:'',priority:'Medium',progress:0,milestones:[]});save();render()}
+function addMs(gid){const i=$('#ms-'+gid);if(!i||!i.value.trim())return;S.goals.find(g=>g.id===gid).milestones.push({title:i.value.trim(),done:false});save();render()}
+function togMs(gid,ix){const m=S.goals.find(g=>g.id===gid).milestones[ix];m.done=!m.done;save();render()}
+function delGoal(id){S.goals=S.goals.filter(g=>g.id!==id);save();render()}
+function addRem(){const t=$('#rT').value||'Reminder';const[h,m]=$('#rH').value.split(':').map(Number);const d=new Date();d.setHours(h,m,0,0);S.rems.push({id:uid(),title:t,time:d.getTime(),enabled:true});save();render()}
+function togRem(id){const r=S.rems.find(x=>x.id===id);r.enabled=!r.enabled;save();render()}
+function delRem(id){S.rems=S.rems.filter(x=>x.id!==id);save();render()}
+function delMem(id){S.mem=S.mem.filter(x=>x.id!==id);save();render()}
+render();loadPrayer();setInterval(()=>{if(V==='home')render()},30000);
+</script>
+</body>
+</html>
